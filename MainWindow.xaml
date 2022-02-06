@@ -1,0 +1,48 @@
+﻿<Window x:Class="ReaderHelper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReaderHelper"
+        mc:Ignorable="d"
+        Title="MainWindow" MinHeight="600" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+           
+                <TextBox Name ="initialTextBox" Height="500" TextWrapping="Wrap" Margin="20,30,20,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">                 
+                </TextBox>
+
+            <Button Content="Upload" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center" Click="Upload_Click"/>
+        </StackPanel>
+        <StackPanel  Grid.Column="1" Orientation="Vertical">
+            <ListView Name="wordsTextBox" Height="500" Margin="20,30,20,0" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Word" Width="50"  />
+                        <GridViewColumn Header="Translation" Width="50" />
+                    </GridView>
+                </ListView.View>
+
+            </ListView>
+            
+            <Button Content="Download" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel  Grid.Column="2" Orientation="Vertical" Margin="20,30,20,20" VerticalAlignment="Center">
+            <Label Content="Word" HorizontalAlignment="Center"/>
+            <TextBox Name ="initialWord" Height="25" IsEnabled="False"></TextBox>
+            <Label Content="Translation" HorizontalAlignment="Center"/>
+            <TextBox Name ="translatedWord" Height="25"></TextBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="210">
+                <Button Content="Back"  Width="50" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
+                <Button Content="Delete"  Width="70" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
+                <Button Content="Next"  Width="50" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <Button Content="Save" HorizontalAlignment="Center" Width="210" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>
