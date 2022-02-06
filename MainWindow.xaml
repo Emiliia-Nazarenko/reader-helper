@@ -5,44 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ReaderHelper"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="600" Width="1000">
-    <Grid>
+        Title="MainWindow" MinHeight="600" Height="640"  MinWidth="1060" Width ="1090" Background="AntiqueWhite" ResizeMode="NoResize"
+        WindowState = "Minimized">
+    <Grid Margin="10,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Vertical">
            
-                <TextBox Name ="initialTextBox" Height="500" TextWrapping="Wrap" Margin="20,30,20,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">                 
+                <TextBox Name ="initialTextBox" Text="{Binding InputText}"  Height="500" TextWrapping="Wrap" Margin="20,30,20,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">                 
                 </TextBox>
 
-            <Button Content="Upload" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center" Click="Upload_Click"/>
+            <Button Content="Upload" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center" Command ="{Binding UploadCommand}" />
         </StackPanel>
         <StackPanel  Grid.Column="1" Orientation="Vertical">
-            <ListView Name="wordsTextBox" Height="500" Margin="20,30,20,0" >
+            <ListView Name="wordsTextBox" 
+                      ItemsSource="{Binding ProcessedWords}" 
+                      SelectedItem="{Binding CurrentWord}"
+                      Height="500" Margin="20,30,20,0" >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Word" Width="50"  />
-                        <GridViewColumn Header="Translation" Width="50" />
+                        <GridViewColumn Header="Word" Width="100"  DisplayMemberBinding="{Binding InitialWord}"/>
+                        <GridViewColumn Header="Translation" Width="100" DisplayMemberBinding="{Binding TranslatedWord}"/>
                     </GridView>
                 </ListView.View>
-
             </ListView>
             
-            <Button Content="Download" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
+            <Button Content="Download" Command ="{Binding DownloadCommand}" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
         </StackPanel>
         <StackPanel  Grid.Column="2" Orientation="Vertical" Margin="20,30,20,20" VerticalAlignment="Center">
             <Label Content="Word" HorizontalAlignment="Center"/>
-            <TextBox Name ="initialWord" Height="25" IsEnabled="False"></TextBox>
+            <TextBox Name ="initialWord" Height="25" IsEnabled="False" Text="{Binding CurrentWord.InitialWord}" TextAlignment="Center" VerticalContentAlignment="Center" ></TextBox>
             <Label Content="Translation" HorizontalAlignment="Center"/>
-            <TextBox Name ="translatedWord" Height="25"></TextBox>
+            <TextBox Name ="translatedWord" Height="25" VerticalAlignment="Center" Text="{Binding CurrentWord.TranslatedWord}" TextAlignment="Center"  VerticalContentAlignment="Center"></TextBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="210">
-                <Button Content="Back"  Width="50" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
-                <Button Content="Delete"  Width="70" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
-                <Button Content="Next"  Width="50" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
+                <Button Content="Back" Command="{Binding BackCommand}" Width="50" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
+                <Button Content="Delete" Command="{Binding DeleteCommand}"  Width="70" Margin="0,15,20,0" VerticalContentAlignment="Center" />
+                <Button Content="Next"  Command="{Binding NextCommand}" Width="50" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
             </StackPanel>
-            <Button Content="Save" HorizontalAlignment="Center" Width="210" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
+            <Button Content="Save" Command="{Binding SaveCommand}" HorizontalAlignment="Center" Width="210" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

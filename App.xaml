@@ -6,6 +6,11 @@
     <Application.Resources>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="5"/>
+
+            <Setter Property="Background" Value="Beige"/>
+        </Style>
+        <Style TargetType="Label">
+            
         </Style>
     </Application.Resources>
 </Application>
