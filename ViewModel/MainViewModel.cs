@@ -16,23 +16,13 @@ namespace ReaderHelper.ViewModel
 	public class MainViewModel : BaseModel
 	{
 		public string InputText { get; set; }
-
 		public Word CurrentWord { get; set; }
-
 		public static ObservableCollection<Word> ProcessedWords { get; set; } = new ObservableCollection<Word>();
-
 		public ICommand UploadCommand { get; set; }
-
 		public ICommand DeleteCommand { get; set; }
-
 		public ICommand NextCommand { get; set; }
-
 		public ICommand BackCommand { get; set; }
-
-		public ICommand SaveCommand { get; set; }
-
 		public ICommand DownloadCommand { get; set; }
-
 		List<KeyValuePair<string, int>> sortedWords;
 
 		public MainViewModel()
@@ -41,25 +31,25 @@ namespace ReaderHelper.ViewModel
 			DeleteCommand = new RelayCommand(Delete);
 			NextCommand = new RelayCommand(Next);
 			BackCommand = new RelayCommand(Back);
-			SaveCommand = new RelayCommand(Save);
 			DownloadCommand = new RelayCommand(Download);
 		}
 
 		private void Upload(object o)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Text files (*.txt)|*.txt|Word documents (*.docx)|*.docx|All files (*.*)|*.*";
+			openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 			if (openFileDialog.ShowDialog() == true)
 				InputText = File.ReadAllText(openFileDialog.FileName);
 
-			sortedWords = ConvertInitialText(InputText, out var x);
-			foreach (var k in (from kvp in sortedWords select kvp.Key).ToList())
+			if (InputText is not null)
 			{
-				ProcessedWords.Add(new Word(k.ToString(), null));
+				sortedWords = ConvertInitialText(InputText, out var x);
+				foreach (var k in (from kvp in sortedWords select kvp.Key).ToList())
+				{
+					ProcessedWords.Add(new Word(k.ToString(), null));
+				}
+				CurrentWord = ProcessedWords.First();
 			}
-
-			CurrentWord = ProcessedWords.First();
-			//OnPropertyChanged(nameof(ProcessedWords));
 		}
 
 		private static List<KeyValuePair<string, int>> ConvertInitialText(string initialText, out Dictionary<string, int> Words)
@@ -114,11 +104,6 @@ namespace ReaderHelper.ViewModel
 		{
 			int id = ProcessedWords.IndexOf(CurrentWord);
 			CurrentWord = id == 0 ? ProcessedWords[ProcessedWords.Count - 1] : ProcessedWords[--id];
-		}
-
-		private void Save(object o)
-		{
-
 		}
 
 		private void Download(object o)
