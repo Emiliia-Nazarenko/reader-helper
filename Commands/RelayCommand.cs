@@ -29,7 +29,6 @@ namespace ReaderHelper.Commands
                 CommandManager.RequerySuggested += value;
                 CanExecuteChangedInternal += value;
             }
-
             remove
             {
                 CommandManager.RequerySuggested -= value;

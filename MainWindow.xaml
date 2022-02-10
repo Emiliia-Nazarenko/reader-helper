@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ReaderHelper"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="600" Height="640"  MinWidth="1060" Width ="1090" Background="LightSkyBlue" ResizeMode="CanResizeWithGrip"
         WindowStyle="ThreeDBorderWindow"
@@ -14,18 +13,38 @@
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
+        
         <StackPanel Grid.Column="0" Orientation="Vertical">
-           
-                <TextBox Name ="initialTextBox" Text="{Binding InputText}"  Height="500" TextWrapping="Wrap" Margin="20,30,20,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">                 
-                </TextBox>
+            
+            <TextBox 
+                Name ="initialTextBox" 
+                Text="{Binding InputText}"  
+                Height="500" 
+                TextWrapping="Wrap" 
+                Margin="20,30,20,0" 
+                AcceptsReturn="True" 
+                VerticalScrollBarVisibility="Auto">                 
+            </TextBox>
 
-            <Button Content="Upload" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center" Command ="{Binding UploadCommand}" />
+            <Button 
+                Content="Upload" 
+                HorizontalAlignment="Right" 
+                Width="100" 
+                Margin="0,15,20,0"
+                VerticalContentAlignment="Center" 
+                Command ="{Binding UploadCommand}"/>
+            
         </StackPanel>
-        <StackPanel  Grid.Column="1" Orientation="Vertical">
+
+        <StackPanel  
+            Grid.Column="1" 
+            Orientation="Vertical">
+            
             <ListView Name="wordsTextBox" 
                       ItemsSource="{Binding ProcessedWords}" 
                       SelectedItem="{Binding CurrentWord}"
-                      Height="500" Margin="20,30,20,0" >
+                      Height="500" 
+                      Margin="20,30,20,0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Word" Width="100"  DisplayMemberBinding="{Binding InitialWord}"/>
@@ -34,17 +53,69 @@
                 </ListView.View>
             </ListView>
             
-            <Button Content="Download" Command ="{Binding DownloadCommand}" HorizontalAlignment="Right" Width="100" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
+            <Button 
+                Content="Download" 
+                Command ="{Binding DownloadCommand}" 
+                HorizontalAlignment="Right" 
+                Width="100" 
+                Margin="0,15,20,0" 
+                VerticalContentAlignment="Center"/>
+            
         </StackPanel>
-        <StackPanel  Grid.Column="2" Orientation="Vertical" Margin="20,30,20,20" VerticalAlignment="Center">
-            <Label Content="Word" HorizontalAlignment="Center"/>
-            <TextBox Name ="initialWord" Height="25" IsEnabled="False" Text="{Binding CurrentWord.InitialWord}" TextAlignment="Center" VerticalContentAlignment="Center" ></TextBox>
-            <Label Content="Translation" HorizontalAlignment="Center"/>
-            <TextBox Name ="translatedWord" Height="25" VerticalAlignment="Center" Text="{Binding CurrentWord.TranslatedWord}" TextAlignment="Center"  VerticalContentAlignment="Center"></TextBox>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="210">
-                <Button Content="Back" Command="{Binding BackCommand}" Width="50" Margin="0,15,20,0" VerticalContentAlignment="Center"/>
-                <Button Content="Delete" Command="{Binding DeleteCommand}"  Width="70" Margin="0,15,20,0" VerticalContentAlignment="Center" />
-                <Button Content="Next"  Command="{Binding NextCommand}" Width="50" Margin="0,15,0,0" VerticalContentAlignment="Center"/>
+        
+        <StackPanel  
+            Grid.Column="2" 
+            Orientation="Vertical" 
+            Margin="20,30,20,20" 
+            VerticalAlignment="Center">
+
+            <Label
+                Content="Word" 
+                HorizontalAlignment="Center"/>
+            <TextBox 
+                Name ="initialWord" 
+                Height="25" 
+                IsEnabled="False" 
+                Text="{Binding CurrentWord.InitialWord}" 
+                TextAlignment="Center" 
+                VerticalContentAlignment="Center">
+            </TextBox>
+           
+            <Label 
+                Content="Translation" 
+                HorizontalAlignment="Center"/>
+            <TextBox 
+                Name ="translatedWord"  
+                Height="25" 
+                VerticalAlignment="Center" 
+                Text="{Binding CurrentWord.TranslatedWord}" 
+                TextAlignment="Center"  
+                VerticalContentAlignment="Center">
+            </TextBox>
+            
+            <StackPanel 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Center" 
+                Width="210">
+                
+                <Button 
+                    Content="Back" 
+                    Command="{Binding BackCommand}" 
+                    Width="50" 
+                    Margin="0,15,20,0" 
+                    VerticalContentAlignment="Center"/>
+                <Button 
+                    Content="Delete" 
+                    Command="{Binding DeleteCommand}"  
+                    Width="70" 
+                    Margin="0,15,20,0" 
+                    VerticalContentAlignment="Center"/>
+                <Button 
+                    Content="Next"  
+                    Command="{Binding NextCommand}" 
+                    Width="50" 
+                    Margin="0,15,0,0" 
+                    VerticalContentAlignment="Center"/>
             </StackPanel>
             
         </StackPanel>

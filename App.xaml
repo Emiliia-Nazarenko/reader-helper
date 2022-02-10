@@ -1,16 +1,12 @@
 ﻿<Application x:Class="ReaderHelper.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ReaderHelper"
              StartupUri="MainWindow.xaml">
+    
     <Application.Resources>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="5"/>
-
             <Setter Property="Background" Value="AliceBlue"/>
-        </Style>
-        <Style TargetType="Label">
-            
         </Style>
     </Application.Resources>
 </Application>

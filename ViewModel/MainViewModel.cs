@@ -6,25 +6,23 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ReaderHelper.ViewModel
 {
 	public class MainViewModel : BaseModel
 	{
+		public static ObservableCollection<Word> ProcessedWords { get; set; } = new ObservableCollection<Word>();
+		public List<KeyValuePair<string, int>> SortedWords;
 		public string InputText { get; set; }
 		public Word CurrentWord { get; set; }
-		public static ObservableCollection<Word> ProcessedWords { get; set; } = new ObservableCollection<Word>();
 		public ICommand UploadCommand { get; set; }
 		public ICommand DeleteCommand { get; set; }
 		public ICommand NextCommand { get; set; }
 		public ICommand BackCommand { get; set; }
 		public ICommand DownloadCommand { get; set; }
-		List<KeyValuePair<string, int>> sortedWords;
-
+		
 		public MainViewModel()
 		{
 			UploadCommand = new RelayCommand(Upload);
@@ -40,11 +38,10 @@ namespace ReaderHelper.ViewModel
 			openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 			if (openFileDialog.ShowDialog() == true)
 				InputText = File.ReadAllText(openFileDialog.FileName);
-
 			if (InputText is not null)
 			{
-				sortedWords = ConvertInitialText(InputText, out var x);
-				foreach (var k in (from kvp in sortedWords select kvp.Key).ToList())
+				SortedWords = ConvertInitialText(InputText, out var x);
+				foreach (var k in (from kvp in SortedWords select kvp.Key).ToList())
 				{
 					ProcessedWords.Add(new Word(k.ToString(), null));
 				}
@@ -108,15 +105,18 @@ namespace ReaderHelper.ViewModel
 
 		private void Download(object o)
 		{
-			SaveFileDialog saveFileDialog = new SaveFileDialog();
-			saveFileDialog.Filter = "Text (*.txt)|*.txt";
-			if (saveFileDialog.ShowDialog() == true)
+			if (ProcessedWords.Count != 0)
 			{
-				string fileName = saveFileDialog.FileName;
-				using (StreamWriter sw = new StreamWriter(fileName))
+				SaveFileDialog saveFileDialog = new SaveFileDialog();
+				saveFileDialog.Filter = "Text (*.txt)|*.txt";
+				if (saveFileDialog.ShowDialog() == true)
 				{
-					foreach (Word w in ProcessedWords)
-						sw.WriteLine(w.ToString());
+					string fileName = saveFileDialog.FileName;
+					using (StreamWriter sw = new StreamWriter(fileName))
+					{
+						foreach (Word w in ProcessedWords)
+							sw.WriteLine(w.ToString());
+					}
 				}
 			}
 		}
