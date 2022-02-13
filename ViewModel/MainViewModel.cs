@@ -52,13 +52,10 @@ namespace ReaderHelper.ViewModel
 		private static List<KeyValuePair<string, int>> ConvertInitialText(string initialText, out Dictionary<string, int> Words)
 		{
 			Words = new Dictionary<string, int>();
-			Regex pattern = new Regex("\\p{P}");
-			Regex exceptionWords = new Regex("^(the|or|a|in|an|at|of|to|but|if|are|is|and|so|as|not|for)$");
-			string cleanedText = pattern.Replace(initialText, "").ToLower();
-			string[] initialWords = cleanedText.Split(" ");
+			string[] initialWords = Regex.Replace(initialText, "\\p{P}", "").ToLower().Split(" ");
 			foreach (string word in initialWords)
 			{
-				if (!string.IsNullOrEmpty(word) && !exceptionWords.IsMatch(word))
+				if (!string.IsNullOrEmpty(word) && !Regex.IsMatch(word, "^(the|or|a|in|an|at|of|to|but|if|are|is|and|so|as|not|for)$"))
 				{
 					if (Words.Keys.Contains(word))
 					{
@@ -111,8 +108,7 @@ namespace ReaderHelper.ViewModel
 				saveFileDialog.Filter = "Text (*.txt)|*.txt";
 				if (saveFileDialog.ShowDialog() == true)
 				{
-					string fileName = saveFileDialog.FileName;
-					using (StreamWriter sw = new StreamWriter(fileName))
+					using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
 					{
 						foreach (Word w in ProcessedWords)
 							sw.WriteLine(w.ToString());

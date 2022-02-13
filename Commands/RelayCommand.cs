@@ -5,24 +5,24 @@ namespace ReaderHelper.Commands
 {
     class RelayCommand : ICommand
     {
-        private Action<object?> _execute;
+        private Action<object> _execute;
 
-        private Predicate<object?> _canExecute;
+        private Predicate<object> _canExecute;
 
-        private event EventHandler? CanExecuteChangedInternal;
+        private event EventHandler CanExecuteChangedInternal;
 
-        public RelayCommand(Action<object?> execute)
+        public RelayCommand(Action<object> execute)
             : this(execute, DefaultCanExecute)
         {
         }
 
-        public RelayCommand(Action<object?> execute, Predicate<object?> canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
         }
 
-        public event EventHandler? CanExecuteChanged
+        public event EventHandler CanExecuteChanged
         {
             add
             {
@@ -36,19 +36,19 @@ namespace ReaderHelper.Commands
             }
         }
 
-        public bool CanExecute(object? parameter)
+        public bool CanExecute(object parameter)
         {
             return _canExecute != null && _canExecute(parameter);
         }
 
-        public void Execute(object? parameter)
+        public void Execute(object parameter)
         {
             _execute(parameter);
         }
 
         public void OnCanExecuteChanged()
         {
-            EventHandler? handler = CanExecuteChangedInternal;
+            EventHandler handler = CanExecuteChangedInternal;
             if (handler is null)
                 return;
             handler(this, EventArgs.Empty);
@@ -60,6 +60,6 @@ namespace ReaderHelper.Commands
             _execute = _ => { return; };
         }
 
-        private static bool DefaultCanExecute(object? parameter) => true;
+        private static bool DefaultCanExecute(object parameter) => true;
     }
 }
