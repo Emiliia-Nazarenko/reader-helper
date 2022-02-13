@@ -7,19 +7,28 @@
         Title="MainWindow" MinHeight="600" Height="640"  MinWidth="1060" Width ="1090" Background="LightSkyBlue" ResizeMode="CanResizeWithGrip"
         WindowStyle="ThreeDBorderWindow"
         >
+    <Window.Resources>
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="10,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Column="0" Orientation="Vertical">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             
             <TextBox 
                 Name ="initialTextBox" 
-                Text="{Binding InputText}"  
-                Height="500" 
+                Text="{Binding InputText}"
                 TextWrapping="Wrap" 
                 Margin="20,30,20,0" 
                 AcceptsReturn="True" 
@@ -27,41 +36,56 @@
             </TextBox>
 
             <Button 
+                Grid.Row="1"
                 Content="Upload" 
                 HorizontalAlignment="Right" 
                 Width="100" 
-                Margin="0,15,20,0"
-                VerticalContentAlignment="Center" 
+                Margin="0,15,20,20"
                 Command ="{Binding UploadCommand}"/>
             
-        </StackPanel>
+        </Grid>
 
-        <StackPanel  
-            Grid.Column="1" 
-            Orientation="Vertical">
-            
-            <ListView Name="wordsTextBox" 
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DataGrid Name="wordsTextBox" 
                       ItemsSource="{Binding ProcessedWords}" 
                       SelectedItem="{Binding CurrentWord}"
-                      Height="500" 
+                      CanUserAddRows="False"
+                      RowHeaderWidth="0"
+                      AutoGenerateColumns="False"
+                      CanUserSortColumns="False"
+                      GridLinesVisibility="All"
+                      HorizontalGridLinesBrush="LightGray"
+                      VerticalGridLinesBrush="LightGray"
                       Margin="20,30,20,0">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Word" Width="100"  DisplayMemberBinding="{Binding InitialWord}"/>
-                        <GridViewColumn Header="Translation" Width="100" DisplayMemberBinding="{Binding TranslatedWord}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
+                        Header="Word" 
+                        Binding="{Binding InitialWord}" 
+                        Width="*" 
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                    <DataGridTextColumn 
+                        Header="Translation" 
+                        Binding="{Binding TranslatedWord}" 
+                        Width="*" 
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             
             <Button 
+                Grid.Row="1"
                 Content="Download" 
                 Command ="{Binding DownloadCommand}" 
                 HorizontalAlignment="Right" 
                 Width="100" 
-                Margin="0,15,20,0" 
+                Margin="0,15,20,20" 
                 VerticalContentAlignment="Center"/>
             
-        </StackPanel>
+        </Grid>
         
         <StackPanel  
             Grid.Column="2" 
@@ -88,9 +112,10 @@
                 Name ="translatedWord"  
                 Height="25" 
                 VerticalAlignment="Center" 
-                Text="{Binding CurrentWord.TranslatedWord}" 
+                Text="{Binding CurrentWord.TranslatedWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 TextAlignment="Center"  
-                VerticalContentAlignment="Center">
+                VerticalContentAlignment="Center"
+                PreviewKeyDown="TranslationTextBox_PreviewKeyDown">
             </TextBox>
             
             <StackPanel 
@@ -112,7 +137,7 @@
                     VerticalContentAlignment="Center"/>
                 <Button 
                     Content="Next"  
-                    Command="{Binding NextCommand}" 
+                    Command="{Binding NextCommand}"
                     Width="50" 
                     Margin="0,15,0,0" 
                     VerticalContentAlignment="Center"/>

@@ -45,7 +45,7 @@ namespace ReaderHelper.ViewModel
 				{
 					ProcessedWords.Add(new Word(k.ToString(), null));
 				}
-				CurrentWord = ProcessedWords.First();
+				CurrentWord = ProcessedWords.FirstOrDefault();
 			}
 		}
 
